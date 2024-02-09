@@ -1,21 +1,21 @@
 version: '3.8'
 
 services:
-  postgresql-keycloak:
-    image: postgres:16-alpine
-    container_name: postgresql-keycloak
+  user-service:
+    image: user-service:1.0
     ports:
-      - "5432:5432"
-    restart: on-failure
-    volumes:
-      - ./data/postgres/keycloak:/var/lib/postgresql/data
+      - "8081:8081"
+    build:
+      context: ./user-service
+      dockerfile: ./Dockerfile
+    container_name: user-service
     environment:
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: keycloak
-      PGDATA: /data/postgres
+      SPRING_PROFILES_ACTIVE: docker
+    #    depends_on:
+    #      - postgresql-user-service
+    #      - discovery-service
     networks:
-      - messenger
+      - messenger-network
 
   keycloak:
     image: jboss/keycloak:16.1.1
@@ -31,15 +31,31 @@ services:
       DB_PASSWORD: password
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: password
-    #      KEYCLOAK_IMPORT: /opt/jboss/keycloak/realms/spring-social-realm.json
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/realms/messenger-realm.json
     container_name: keycloak
-    #    volumes:
-    #      - ./realms/:/opt/jboss/keycloak/realms
+    volumes:
+      - ./init/realms/:/opt/jboss/keycloak/realms
     depends_on:
       - postgresql-keycloak
     networks:
-      - messenger
+      - messenger-network
+
+  postgresql-keycloak:
+    image: postgres:16-alpine
+    container_name: postgresql-keycloak
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    volumes:
+      - ./data/postgres/keycloak:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloak
+      PGDATA: /data/postgres
+    networks:
+      - messenger-network
 
 networks:
-  messenger:
+  messenger-network:
     driver: bridge
