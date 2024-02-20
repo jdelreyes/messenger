@@ -1,40 +1,67 @@
 version: '3.8'
 
 services:
-  user-service:
-    image: user-service:1.0
-    ports:
-      - "8081:8081"
-    build:
-      context: ./user-service
-      dockerfile: ./Dockerfile
-    container_name: user-service
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    #    depends_on:
-    #      - postgresql-user-service
-    #      - discovery-service
-    networks:
-      - messenger-network
+#  user-service:
+#    image: user-service:1.0
+#    ports:
+#      - "8081:8081"
+#    build:
+#      context: ./user-service
+#      dockerfile: ./Dockerfile
+#    container_name: user-service
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker
+#    #    depends_on:
+#    #      - postgresql-user-service
+#    #      - discovery-service
+#    networks:
+#      - messenger-network
+
+        #  keycloak:
+        #    image: jboss/keycloak:16.1.1
+        #    restart: on-failure
+        #    ports:
+        #      - "8080:8080"
+        #    environment:
+        #      JBOSS_LOG_MANAGER_ROOT_LOGGER: DEBUG
+        #      DB_VENDOR: postgres
+        #      DB_ADDR: postgresql-keycloak
+        #      DB_DATABASE: keycloak
+        #      DB_USER: keycloak
+        #      DB_PASSWORD: password
+        #      KEYCLOAK_USER: admin
+        #      KEYCLOAK_PASSWORD: password
+        #      KEYCLOAK_IMPORT: /opt/jboss/keycloak/realms/messenger-realm.json
+        #    container_name: keycloak
+        #    volumes:
+        #      - ./init/realms/:/opt/jboss/keycloak/realms
+        #    depends_on:
+        #      - postgresql-keycloak
+        #    networks:
+      #      - messenger-network
 
   keycloak:
-    image: jboss/keycloak:16.1.1
-    restart: on-failure
+    image: quay.io/keycloak/keycloak:22.0.4
+    container_name: keycloak
+    command: start-dev
+#    entrypoint: /opt/keycloak/bin/kc.sh start --proxy edge --hostname-strict false
+    restart: always
     ports:
       - "8080:8080"
     environment:
-      JBOSS_LOG_MANAGER_ROOT_LOGGER: DEBUG
-      DB_VENDOR: postgres
-      DB_ADDR: postgresql-keycloak
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: password
-      KEYCLOAK_IMPORT: /opt/jboss/keycloak/realms/messenger-realm.json
-    container_name: keycloak
-    volumes:
-      - ./init/realms/:/opt/jboss/keycloak/realms
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KC_DB: postgres
+      KC_DB_SCHEMA: public
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: password
+      KC_DB_URL: jdbc:postgresql://postgresql-keycloak:5432/keycloak
+      PROXY_ADDRESS_FORWARDING: true
+      KC_PROXY: none
+#      KC_HOSTNAME: keycloak.messenger.com
+      KC_HOSTNAME_STRICT_HTTPS: true
+#    volumes:
+#      - ./init/realms/:/opt/jboss/keycloak/realms
     depends_on:
       - postgresql-keycloak
     networks:

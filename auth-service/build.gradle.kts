@@ -31,7 +31,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     //    keycloak
-    implementation("org.keycloak:keycloak-admin-client:23.0.3")
+    implementation("org.keycloak:keycloak-admin-client:23.0.4")
 }
 
 tasks.withType<Test> {
