@@ -22,11 +22,16 @@ repositories {
 }
 
 dependencies {
+    // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
-    compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    annotationProcessor("org.projectlombok:lombok")
+    // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+    //    keycloak
+    implementation("org.keycloak:keycloak-admin-client:23.0.4")
 }
 
 tasks.withType<Test> {

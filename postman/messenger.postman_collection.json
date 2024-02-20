@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "f52e193c-2adc-4c46-8889-ae76bca75858",
+		"name": "messenger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29886944"
+	},
+	"item": [
+		{
+			"name": "keycloak",
+			"item": [
+				{
+					"name": "admin-cli",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_secret",
+									"value": "o2bOWLNJUNTKoB3DFrxdjplAiMWNnfrW",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "admin-cli",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/realms/messenger-realm/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"realms",
+								"messenger-realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJUMnZQWmF6eW9fN19UeERNdjBlbldMX0dNcFo0czk0NEdic1poSEZVYVNnIn0.eyJleHAiOjE3MDg0MDE0OTMsImlhdCI6MTcwODQwMTE5MywianRpIjoiYTVjYTJhNmMtYzc3NC00YWE3LTlmMGUtYWMzZWM3MTc3MmJhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9tZXNzZW5nZXItcmVhbG0iLCJzdWIiOiIzZGU0NDM2ZS0xMWU4LTQ2M2YtOGRkNC03Zjk2ZGY1ZWRhNGIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhZG1pbi1jbGkiLCJhY3IiOiIxIiwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiY2xpZW50SG9zdCI6IjE5Mi4xNjguNjUuMSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWFkbWluLWNsaSIsImNsaWVudEFkZHJlc3MiOiIxOTIuMTY4LjY1LjEiLCJjbGllbnRfaWQiOiJhZG1pbi1jbGkifQ.PLQoTvMZkFoWADItrgIm3My5BL0P5pK1bvb3dKrRB7dNkRZTFW-hVzQf4HTvK31LSm7EA1pIOCqmMLIrRGO380-QZR0EDu-25d56wh9CrVBNM7fLTz9QoXuKb1MaAcuYqwT27dbwwByuYCuWwAX8gEUdNjbn-ZTCxht5xUQyG3Jk-oegl0eIvwZm5NPsr2ayW1Erv7DaTs6DaVJE31SDctJvESenCTMrk5kiu5Vs6zk9rS5xgVK4QO50QwFlf4si31SDMv1yOKD0CJnGtqoUdSG9KHvhFkAzTXtfQSxFuAMW_q49CtzOMeoFkFPVB9qBxDsC03TY-fYJIx0oS7XvAg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": true,\n    \"username\": \"username\",\n    \"email\": \"email@domain.ca\",\n    \"firstName\": \"firstname\",\n    \"lastName\": \"lastname\",\n    \"credentials\": [\n        {\n            \"type\": \"password\",\n            \"value\": \"password\",\n            \"temporary\": false\n        }\n    ],\n    \"requiredActions\": [\n        \"CONFIGURE_TOTP\",\n        \"VERIFY_EMAIL\"\n    ],\n    \"groups\": [],\n    \"attributes\": {\n        \"locale\": [\n            \"en\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/realms/messenger-realm/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"realms",
+								"messenger-realm",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "authenticationClientId",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "username",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/realms/messenger-realm/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"realms",
+								"messenger-realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
