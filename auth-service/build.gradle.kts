@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    // spring
+    // spring-boot
     implementation("org.springframework.boot:spring-boot-starter-web")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // test
@@ -30,8 +30,10 @@ dependencies {
     // lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    //    keycloak
-    implementation("org.keycloak:keycloak-admin-client:23.0.4")
+    // keycloak
+    implementation("org.keycloak:keycloak-admin-client:23.0.0")
+    implementation("org.jboss.resteasy:resteasy-client:6.2.7.Final")
+    implementation("org.jboss.resteasy:resteasy-jackson2-provider:6.2.7.Final")
 }
 
 tasks.withType<Test> {

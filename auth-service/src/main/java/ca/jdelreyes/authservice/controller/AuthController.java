@@ -1,13 +1,11 @@
 package ca.jdelreyes.authservice.controller;
 
+import ca.jdelreyes.authservice.dto.LogInRequest;
 import ca.jdelreyes.authservice.dto.RegisterRequest;
-import ca.jdelreyes.authservice.dto.SignInRequest;
 import ca.jdelreyes.authservice.service.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/api/auth")
@@ -16,16 +14,23 @@ public class AuthController {
     private final AuthServiceImpl authService;
 
     @PostMapping("/register")
-    public void register(@RequestBody() RegisterRequest registerRequest) {
-        System.out.println(registerRequest);
-//        return
-        authService.register();
+    public RegisterRequest register(@RequestBody() RegisterRequest registerRequest) {
+        return authService.register(registerRequest);
     }
 
-    @PostMapping("/signIn")
-    public void signIn(@RequestBody() SignInRequest signInRequest) {
-        System.out.println();
-//        return
-        authService.signIn();
+    @PostMapping("/login")
+    public void login(@RequestBody() LogInRequest logInRequest) {
+
     }
+
+    @GetMapping("/{userId}")
+    public UserRepresentation getUser(@PathVariable String userId) {
+        return this.authService.getUser(userId);
+    }
+
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable() String userId) {
+        authService.deleteUser(userId);
+    }
+
 }
