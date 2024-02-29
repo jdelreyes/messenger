@@ -31,4 +31,5 @@ public class KeycloakConfig {
                 .clientSecret(adminClientSecret)
                 .build();
     }
+
 }

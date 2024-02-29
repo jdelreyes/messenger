@@ -2,6 +2,7 @@ package ca.jdelreyes.authservice.service;
 
 import ca.jdelreyes.authservice.dto.LogInRequest;
 import ca.jdelreyes.authservice.dto.RegisterRequest;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Value("${keycloak.realm}")
     private String realm;
-
 
     @Override
     public RegisterRequest register(RegisterRequest registerRequest) {
@@ -46,7 +47,6 @@ public class AuthServiceImpl implements AuthService {
 
         List<CredentialRepresentation> credentialRepresentationList = new ArrayList<>();
         credentialRepresentationList.add(credentialRepresentation);
-
         userRepresentation.setCredentials(credentialRepresentationList);
 
         UsersResource usersResource = getUsersResource();
@@ -54,12 +54,24 @@ public class AuthServiceImpl implements AuthService {
         Response response = usersResource.create(userRepresentation);
 
         if (Objects.equals(201, response.getStatus())) {
+//            List<UserRepresentation> representationList = usersResource
+//                    .searchByUsername(registerRequest.getUsername(), true);
+//
+//            if (!CollectionUtils.isEmpty(representationList)) {
+//                UserRepresentation userRepresentation1 = representationList
+//                        .stream()
+//                        .filter(userRepresentation2
+//                                -> Objects.equals(false, userRepresentation
+//                                .isEmailVerified()))
+//                        .findFirst()
+//                        .orElse(null);
+//
+//                assert userRepresentation1 != null;
+//            }
             return registerRequest;
         }
 
-//        response.readEntity()
-
-        return null;
+        throw new BadRequestException();
     }
 
     @Override
@@ -77,7 +89,6 @@ public class AuthServiceImpl implements AuthService {
     public void deleteUser(String userId) {
         getUsersResource().delete(userId);
     }
-
 
     private UsersResource getUsersResource() {
         RealmResource realmResource = keycloak.realm(realm);
