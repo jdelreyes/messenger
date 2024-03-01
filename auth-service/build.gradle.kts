@@ -30,13 +30,8 @@ dependencies {
     // lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    // keycloak
-    implementation("org.keycloak:keycloak-admin-client:23.0.0")
-    implementation("org.jboss.resteasy:resteasy-client:6.2.7.Final")
-    implementation("org.jboss.resteasy:resteasy-jackson2-provider:6.2.7.Final")
-    // security
-    implementation("org.springframework.boot:spring-boot-starter-security:3.2.2")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.1.4")
+    // webflux
+    implementation("org.springframework.boot:spring-boot-starter-webflux:3.2.2")
 }
 
 tasks.withType<Test> {

@@ -1,97 +1,34 @@
 package ca.jdelreyes.authservice.service;
 
-import ca.jdelreyes.authservice.dto.LogInRequest;
-import ca.jdelreyes.authservice.dto.RegisterRequest;
-import jakarta.ws.rs.BadRequestException;
-import jakarta.ws.rs.core.Response;
+import ca.jdelreyes.authservice.dto.AuthResponse;
+import ca.jdelreyes.authservice.dto.user.LoginRequest;
+import ca.jdelreyes.authservice.dto.user.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.representations.idm.CredentialRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service()
-@Slf4j()
 @RequiredArgsConstructor()
+@Slf4j()
 public class AuthServiceImpl implements AuthService {
-    private final Keycloak keycloak;
-
-    @Value("${keycloak.realm}")
-    private String realm;
+    private final WebClient webClient;
 
     @Override
-    public RegisterRequest register(RegisterRequest registerRequest) {
-        UserRepresentation userRepresentation = new UserRepresentation();
-
-        userRepresentation.setUsername(userRepresentation.getUsername());
-        userRepresentation.setEmail(userRepresentation.getEmail());
-        userRepresentation.setFirstName(userRepresentation.getFirstName());
-        userRepresentation.setLastName(userRepresentation.getLastName());
-
-        userRepresentation.setEmailVerified(true);
-        userRepresentation.setEnabled(true);
-
-        CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
-        credentialRepresentation.setValue(registerRequest.getPassword());
-        credentialRepresentation.setTemporary(false);
-        credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
-
-        List<CredentialRepresentation> credentialRepresentationList = new ArrayList<>();
-        credentialRepresentationList.add(credentialRepresentation);
-        userRepresentation.setCredentials(credentialRepresentationList);
-
-        UsersResource usersResource = getUsersResource();
-
-        Response response = usersResource.create(userRepresentation);
-
-        if (Objects.equals(201, response.getStatus())) {
-//            List<UserRepresentation> representationList = usersResource
-//                    .searchByUsername(registerRequest.getUsername(), true);
-//
-//            if (!CollectionUtils.isEmpty(representationList)) {
-//                UserRepresentation userRepresentation1 = representationList
-//                        .stream()
-//                        .filter(userRepresentation2
-//                                -> Objects.equals(false, userRepresentation
-//                                .isEmailVerified()))
-//                        .findFirst()
-//                        .orElse(null);
-//
-//                assert userRepresentation1 != null;
-//            }
-            return registerRequest;
-        }
-
-        throw new BadRequestException();
+    public boolean register(RegisterRequest registerRequest) {
+        return false;
     }
 
     @Override
-    public void login(LogInRequest logInRequest) {
+    public AuthResponse login(LoginRequest loginRequest) {
+        return null;
+    }
 
+    private boolean userExists() {
+//        UserResponse userResponse = webClient.post();
+
+        return true;
     }
 
 
-    @Override
-    public UserRepresentation getUser(String userId) {
-        return getUsersResource().get(userId).toRepresentation();
-    }
-
-    @Override
-    public void deleteUser(String userId) {
-        getUsersResource().delete(userId);
-    }
-
-    private UsersResource getUsersResource() {
-        RealmResource realmResource = keycloak.realm(realm);
-        return realmResource.users();
-    }
 }

@@ -1,15 +1,11 @@
 package ca.jdelreyes.authservice.service;
 
-import ca.jdelreyes.authservice.dto.LogInRequest;
-import ca.jdelreyes.authservice.dto.RegisterRequest;
-import org.keycloak.representations.idm.UserRepresentation;
+import ca.jdelreyes.authservice.dto.AuthResponse;
+import ca.jdelreyes.authservice.dto.user.LoginRequest;
+import ca.jdelreyes.authservice.dto.user.RegisterRequest;
 
 public interface AuthService {
-    RegisterRequest register(RegisterRequest registerRequest);
+    boolean register(RegisterRequest registerRequest);
 
-    void login(LogInRequest logInRequest);
-
-    UserRepresentation getUser(String userId);
-
-    void deleteUser(String userId);
+    AuthResponse login(LoginRequest loginRequest);
 }
