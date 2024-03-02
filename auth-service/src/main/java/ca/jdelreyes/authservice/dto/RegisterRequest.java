@@ -1,4 +1,4 @@
-package ca.jdelreyes.authservice.dto.user;
+package ca.jdelreyes.authservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -5,9 +5,11 @@ import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findUserById(Long id);
+    User findUserById(Long userId);
 
-    User deleteUserById(@NonNull Long id);
+    User findUserByUserName(String userName);
 
-    boolean existsById(@NonNull Long id);
+    User deleteUserById(@NonNull Long userId);
+
+    boolean existsById(@NonNull Long userId);
 }

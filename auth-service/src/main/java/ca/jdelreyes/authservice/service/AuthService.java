@@ -1,11 +1,12 @@
 package ca.jdelreyes.authservice.service;
 
 import ca.jdelreyes.authservice.dto.AuthResponse;
-import ca.jdelreyes.authservice.dto.user.LoginRequest;
-import ca.jdelreyes.authservice.dto.user.RegisterRequest;
+import ca.jdelreyes.authservice.dto.LoginRequest;
+import ca.jdelreyes.authservice.dto.RegisterRequest;
+import ca.jdelreyes.authservice.dto.user.UserResponse;
 
 public interface AuthService {
-    boolean register(RegisterRequest registerRequest);
+    UserResponse register(RegisterRequest registerRequest);
 
     AuthResponse login(LoginRequest loginRequest);
 }

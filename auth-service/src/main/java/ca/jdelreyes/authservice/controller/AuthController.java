@@ -1,8 +1,9 @@
 package ca.jdelreyes.authservice.controller;
 
 import ca.jdelreyes.authservice.dto.AuthResponse;
-import ca.jdelreyes.authservice.dto.user.LoginRequest;
-import ca.jdelreyes.authservice.dto.user.RegisterRequest;
+import ca.jdelreyes.authservice.dto.LoginRequest;
+import ca.jdelreyes.authservice.dto.RegisterRequest;
+import ca.jdelreyes.authservice.dto.user.UserResponse;
 import ca.jdelreyes.authservice.service.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,10 @@ public class AuthController {
 
     @PostMapping("register")
     public ResponseEntity<?> register(@RequestBody() RegisterRequest registerRequest) {
-        Boolean isUserRegistered = authService.register(registerRequest);
-        if (isUserRegistered)
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        UserResponse userResponse = authService.register(registerRequest);
+        if (userResponse == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("login")

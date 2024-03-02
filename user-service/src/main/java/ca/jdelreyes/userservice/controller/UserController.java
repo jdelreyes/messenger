@@ -23,6 +23,22 @@ public class UserController {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
+    @GetMapping("{query}")
+    public ResponseEntity<UserResponse> getUserByIdOrUserName(@PathVariable("query") String query) {
+        UserResponse userResponse;
+
+        try {
+            userResponse = userService.getUserById(Long.parseLong(query, 10));
+        } catch (Exception exception) {
+            userResponse = userService.getUserByUserName((String) query);
+        }
+
+        if (userResponse == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    }
+
     @PostMapping()
     public ResponseEntity<UserResponse> createUser(@RequestBody() @Valid CreateUserRequest createUserRequest) {
         UserResponse userResponse = userService.createUser(createUserRequest);
@@ -33,8 +49,8 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping()
-    public ResponseEntity<UserResponse> updateUser(Long userId, @RequestBody() @Valid UpdateUserRequest updateUserRequest) {
+    @PutMapping("{userId}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("userId") Long userId, @RequestBody() @Valid UpdateUserRequest updateUserRequest) {
         UserResponse userResponse = userService.updateUser(userId, updateUserRequest);
 
         if (userResponse == null)
@@ -43,8 +59,8 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<?> deleteUser(Long userId) {
+    @DeleteMapping("{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) {
         UserResponse userResponse = userService.deleteUser(userId);
 
         if (userResponse == null)

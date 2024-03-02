@@ -25,9 +25,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getUser(Long userId) {
+    public UserResponse getUserById(Long userId) {
         try {
             return mapUserToUserResponse(userRepository.findUserById(userId));
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    @Override
+    public UserResponse getUserByUserName(String userName) {
+        try {
+            return mapUserToUserResponse(userRepository.findUserByUserName(userName));
         } catch (Exception exception) {
             return null;
         }
@@ -63,6 +72,10 @@ public class UserServiceImpl implements UserService {
         } catch (Exception exception) {
             return null;
         }
+    }
+
+    private boolean userExists(Long userId) {
+        return userRepository.existsById(userId);
     }
 
     private UserResponse mapUserToUserResponse(User user) {
