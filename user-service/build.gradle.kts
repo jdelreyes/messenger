@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	implementation("org.springframework.boot:spring-boot-starter-validation:3.2.2")
 //	lombok
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
@@ -34,6 +35,8 @@ dependencies {
 //	db
 	implementation("org.postgresql:postgresql:42.7.1")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.2")
+//	spring security
+	implementation("org.springframework.security:spring-security-crypto:6.2.2")
 }
 
 tasks.withType<Test> {

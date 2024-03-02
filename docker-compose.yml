@@ -9,6 +9,7 @@ services:
       context: ./user-service
       dockerfile: ./Dockerfile
     container_name: user-service
+    restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
@@ -24,6 +25,7 @@ services:
       context: ./auth-service
       dockerfile: ./Dockerfile
     container_name: auth-service
+    restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
@@ -44,6 +46,19 @@ services:
       - ./data/postgres/users:/var/lib/postgresql/data
       - ./init/user-service-init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
+    networks:
+      - messenger-network
+
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@domain.ca
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "80:80"
     networks:
       - messenger-network
 

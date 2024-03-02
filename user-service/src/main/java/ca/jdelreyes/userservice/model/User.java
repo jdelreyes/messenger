@@ -1,8 +1,7 @@
 package ca.jdelreyes.userservice.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @Table
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,7 @@ public class User {
     private String userName;
     private String password;
     private String email;
+    @Builder.Default()
     private LocalDateTime joinedAt = LocalDateTime.now();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
