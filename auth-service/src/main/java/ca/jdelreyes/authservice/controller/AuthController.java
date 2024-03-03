@@ -20,11 +20,11 @@ public class AuthController {
     private final AuthServiceImpl authService;
 
     @PostMapping("register")
-    public ResponseEntity<?> register(@RequestBody() RegisterRequest registerRequest) {
+    public ResponseEntity<UserResponse> register(@RequestBody() RegisterRequest registerRequest) {
         UserResponse userResponse = authService.register(registerRequest);
         if (userResponse == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("login")

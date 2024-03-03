@@ -25,6 +25,7 @@ dependencies {
     // spring-boot
     implementation("org.springframework.boot:spring-boot-starter-web")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.2.2")
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     // lombok

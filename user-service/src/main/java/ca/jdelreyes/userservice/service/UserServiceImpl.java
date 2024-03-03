@@ -74,10 +74,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private boolean userExists(Long userId) {
-        return userRepository.existsById(userId);
-    }
-
     private UserResponse mapUserToUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())

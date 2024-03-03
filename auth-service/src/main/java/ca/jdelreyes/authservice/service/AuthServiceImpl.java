@@ -7,13 +7,11 @@ import ca.jdelreyes.authservice.dto.user.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.Objects;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 @Service()
 @RequiredArgsConstructor()
@@ -26,10 +24,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserResponse register(RegisterRequest registerRequest) {
-        if (userExists(registerRequest.getUserName()))
+        if (userExistsById(registerRequest.getUserName()))
             return null;
 
-        return this.registerUser(registerRequest);
+        UserResponse userResponse = registerUser(registerRequest);
+
+        return userResponse;
     }
 
     @Override
@@ -37,30 +37,42 @@ public class AuthServiceImpl implements AuthService {
         return null;
     }
 
-    private boolean userExists(String userName) {
-        WebClient.ResponseSpec responseSpec = webClient
-                .get()
-                .uri(userServiceUri + "/" + userName)
-                .retrieve();
+    private boolean userExistsById(String userName) {
+        try {
+            WebClient.ResponseSpec responseSpec = webClient
+                    .get()
+                    .uri(userServiceUri + "/" + userName)
+                    .retrieve();
 
-        ResponseEntity<UserResponse> userResponseResponseEntity = responseSpec.toEntity(UserResponse.class).block();
-
-        assert userResponseResponseEntity != null;
-        if (Objects.equals(userResponseResponseEntity.getStatusCode(), HttpStatus.OK))
-            return true;
-        if (Objects.equals(userResponseResponseEntity.getStatusCode(), HttpStatus.NOT_FOUND))
+            responseSpec
+                    .toEntity(UserResponse.class)
+                    .block();
+        } catch (WebClientResponseException webClientResponseException) {
             return false;
-        return false;
+        }
+
+        return true;
+
     }
 
     private UserResponse registerUser(RegisterRequest registerRequest) {
-        return webClient
-                .post()
-                .uri(userServiceUri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(registerRequest)
-                .retrieve()
-                .bodyToMono(UserResponse.class)
-                .block();
+        ResponseEntity<UserResponse> userResponseResponseEntity;
+        try {
+            userResponseResponseEntity = webClient
+                    .post()
+                    .uri(userServiceUri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue(registerRequest)
+                    .retrieve()
+                    .toEntity(UserResponse.class)
+                    .block();
+
+            assert userResponseResponseEntity != null;
+
+        } catch (Exception exception) {
+            return null;
+        }
+
+        return userResponseResponseEntity.getBody();
     }
 }
