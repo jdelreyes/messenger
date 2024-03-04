@@ -1,6 +1,5 @@
 ### added by @jdelreyes
 data/
-docker-compose-local.yml
 
 ### Spring Boot ###
 HELP.md

@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
         if (userExistsById(registerRequest.getUserName()))
             return null;
 
-        UserResponse userResponse = registerUser(registerRequest);
+        UserResponse userResponse = postNewUserPayload(registerRequest);
 
         return userResponse;
     }
@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
-    private UserResponse registerUser(RegisterRequest registerRequest) {
+    private UserResponse postNewUserPayload(RegisterRequest registerRequest) {
         ResponseEntity<UserResponse> userResponseResponseEntity;
         try {
             userResponseResponseEntity = webClient

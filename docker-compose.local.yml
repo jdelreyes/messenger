@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgresql-user-service:
+    container_name: postgresql-user-service
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user-service
+    volumes:
+      - ./data/postgres/users:/var/lib/postgresql/data
+      - ./init/user-service-init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:8.3
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@domain.ca
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "80:80"
+

@@ -49,10 +49,9 @@ services:
     networks:
       - messenger-network
 
-
   pgadmin:
     container_name: pgadmin
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:8.3
     restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@domain.ca

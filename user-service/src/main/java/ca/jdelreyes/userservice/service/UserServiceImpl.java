@@ -4,12 +4,15 @@ import ca.jdelreyes.userservice.dto.CreateUserRequest;
 import ca.jdelreyes.userservice.dto.UpdateUserRequest;
 import ca.jdelreyes.userservice.dto.UserResponse;
 import ca.jdelreyes.userservice.model.User;
+import ca.jdelreyes.userservice.repository.RoleRepository;
 import ca.jdelreyes.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service()
@@ -18,6 +21,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RoleRepository roleRepository;
 
     @Override
     public List<UserResponse> getUsers() {
@@ -51,6 +55,7 @@ public class UserServiceImpl implements UserService {
                     .firstName(createUserRequest.getFirstName())
                     .lastName(createUserRequest.getLastName())
                     .password(bCryptPasswordEncoder.encode(createUserRequest.getPassword()))
+                    .roles(Collections.singletonList(roleRepository.findByName(("USER"))))
                     .build();
 
             userRepository.save(user);
@@ -65,13 +70,10 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Transactional
     @Override
-    public UserResponse deleteUser(Long userId) {
-        try {
-            return mapUserToUserResponse(userRepository.deleteUserById(userId));
-        } catch (Exception exception) {
-            return null;
-        }
+    public void deleteUser(Long userId) {
+        userRepository.deleteUserById(userId);
     }
 
     private UserResponse mapUserToUserResponse(User user) {

@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,11 +62,7 @@ public class UserController {
 
     @DeleteMapping("{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) {
-        UserResponse userResponse = userService.deleteUser(userId);
-
-        if (userResponse == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+        userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
