@@ -1,4 +1,4 @@
-package ca.jdelreyes.authservice.dto;
+package ca.jdelreyes.userservice.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -12,20 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterRequest {
-    @NotEmpty
+public class UpdateUserRequest {
     @Size(min = 2)
     private String userName;
-    @NotEmpty
     @Size(min = 8)
     private String password;
-    @NotEmpty
     @Email
     private String email;
-    @NotEmpty
     @Size(min = 2)
     private String firstName;
-    @NotEmpty
     @Size(min = 2)
     private String lastName;
 }

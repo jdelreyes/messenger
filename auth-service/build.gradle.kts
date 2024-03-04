@@ -22,16 +22,17 @@ repositories {
 }
 
 dependencies {
-    // spring
+    // spring-boot
     implementation("org.springframework.boot:spring-boot-starter-web")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.2.2")
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     // lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    //    keycloak
-    implementation("org.keycloak:keycloak-admin-client:23.0.4")
+    // webflux
+    implementation("org.springframework.boot:spring-boot-starter-webflux:3.2.2")
 }
 
 tasks.withType<Test> {

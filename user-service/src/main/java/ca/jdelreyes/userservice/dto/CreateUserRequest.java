@@ -1,7 +1,7 @@
-package ca.jdelreyes.authservice.dto;
+package ca.jdelreyes.userservice.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterRequest {
+public class CreateUserRequest {
     @NotEmpty
     @Size(min = 2)
     private String userName;
