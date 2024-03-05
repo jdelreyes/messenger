@@ -1,21 +1,24 @@
 package ca.jdelreyes.userservice.service;
 
 import ca.jdelreyes.userservice.dto.CreateUserRequest;
+import ca.jdelreyes.userservice.dto.UpdateUserPasswordRequest;
 import ca.jdelreyes.userservice.dto.UpdateUserRequest;
 import ca.jdelreyes.userservice.dto.UserResponse;
 
 import java.util.List;
 
 public interface UserService {
-    public List<UserResponse> getUsers();
+    List<UserResponse> getUsers();
 
-    public UserResponse getUserById(Long userId);
+    UserResponse getUserById(Long userId);
 
-    public UserResponse getUserByUserName(String userName);
+    UserResponse getUserByUserName(String userName);
 
-    public UserResponse createUser(CreateUserRequest createUserRequest);
+    UserResponse createUser(CreateUserRequest createUserRequest);
 
-    public UserResponse updateUser(Long userId, UpdateUserRequest updateUserRequest);
+    UserResponse updateUser(Long userId, UpdateUserRequest updateUserRequest);
 
-    public void deleteUser(Long userId);
+    void UpdateUserPassword(Long userId, UpdateUserPasswordRequest updateUserPasswordRequest);
+
+    void deleteUser(Long userId);
 }

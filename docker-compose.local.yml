@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: user-service
     volumes:
-      - ./data/postgres/users:/var/lib/postgresql/data
+#      - ./data/postgres/users:/var/lib/postgresql/data
       - ./init/user-service-init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
 

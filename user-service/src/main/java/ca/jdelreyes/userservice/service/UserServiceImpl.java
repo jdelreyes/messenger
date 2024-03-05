@@ -1,6 +1,7 @@
 package ca.jdelreyes.userservice.service;
 
 import ca.jdelreyes.userservice.dto.CreateUserRequest;
+import ca.jdelreyes.userservice.dto.UpdateUserPasswordRequest;
 import ca.jdelreyes.userservice.dto.UpdateUserRequest;
 import ca.jdelreyes.userservice.dto.UserResponse;
 import ca.jdelreyes.userservice.model.User;
@@ -8,9 +9,11 @@ import ca.jdelreyes.userservice.repository.RoleRepository;
 import ca.jdelreyes.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Collections;
 import java.util.List;
@@ -68,6 +71,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse updateUser(Long userId, UpdateUserRequest updateUserRequest) {
         return null;
+    }
+
+    @Override
+    public void UpdateUserPassword(Long userId, UpdateUserPasswordRequest updateUserPasswordRequest) {
+        String oldPassword = updateUserPasswordRequest.getOldPassword();
+        String newPassword = updateUserPasswordRequest.getNewPassword();
+        String hash = userRepository.findUserById(userId).getPassword();
+
+        boolean oldPasswordMatches = bCryptPasswordEncoder.matches(oldPassword, hash);
+
+        if (!oldPasswordMatches) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Transactional

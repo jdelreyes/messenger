@@ -15,8 +15,6 @@ import lombok.NoArgsConstructor;
 public class UpdateUserRequest {
     @Size(min = 2)
     private String userName;
-    @Size(min = 8)
-    private String password;
     @Email
     private String email;
     @Size(min = 2)
