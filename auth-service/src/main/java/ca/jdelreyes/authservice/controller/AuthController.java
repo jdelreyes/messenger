@@ -5,6 +5,8 @@ import ca.jdelreyes.authservice.dto.LoginRequest;
 import ca.jdelreyes.authservice.dto.RegisterRequest;
 import ca.jdelreyes.authservice.dto.user.UserResponse;
 import ca.jdelreyes.authservice.service.AuthServiceImpl;
+import ca.jdelreyes.authservice.service.jwt.JwtServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ public class AuthController {
     private final AuthServiceImpl authService;
 
     @PostMapping("register")
-    public ResponseEntity<UserResponse> register(@RequestBody() RegisterRequest registerRequest) {
+    public ResponseEntity<UserResponse> register(@Valid @RequestBody() RegisterRequest registerRequest) {
         UserResponse userResponse = authService.register(registerRequest);
         if (userResponse == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -28,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponse> login(@RequestBody() LoginRequest loginRequest) {
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody() LoginRequest loginRequest) {
         AuthResponse authResponse = authService.login(loginRequest);
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }

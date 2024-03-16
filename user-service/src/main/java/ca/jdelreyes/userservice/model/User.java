@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "users")
-@Getter
-@Setter
+@Data
 @Table
 @Builder
 @NoArgsConstructor
@@ -25,9 +24,10 @@ public class User {
     private String userName;
     private String password;
     private String email;
-    @Builder.Default()
+    @Builder.Default
     private LocalDateTime joinedAt = LocalDateTime.now();
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))

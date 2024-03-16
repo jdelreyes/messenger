@@ -36,8 +36,10 @@ dependencies {
     // eureka
     implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.1.0")
+    // jwt
+    implementation("com.auth0:java-jwt:4.4.0")
     // security
-    implementation("org.springframework.boot:spring-boot-starter-security:3.2.2")
+//    implementation("org.springframework.boot:spring-boot-starter-security:3.2.2")
 }
 
 tasks.withType<Test> {

@@ -4,6 +4,7 @@ import ca.jdelreyes.authservice.dto.AuthResponse;
 import ca.jdelreyes.authservice.dto.LoginRequest;
 import ca.jdelreyes.authservice.dto.RegisterRequest;
 import ca.jdelreyes.authservice.dto.user.UserResponse;
+import ca.jdelreyes.authservice.service.jwt.JwtServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 @Slf4j()
 public class AuthServiceImpl implements AuthService {
     private final WebClient webClient;
+    private final JwtServiceImpl jwtService;
 
     @Value("${user.service.url}")
     private String userServiceUri;
@@ -34,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(LoginRequest loginRequest) {
-        return null;
+        return jwtService.generateToken(loginRequest);
     }
 
     private boolean userExistsById(String userName) {
